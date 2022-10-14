@@ -1,1 +1,70 @@
-1233445
+object scalextric {
+	
+	var property precioBase = 27300
+	var cantidadDeAutosExtra = 0
+	
+	method agregarAutos(cantidadAgregadaDeAutos) {
+		cantidadDeAutosExtra = cantidadDeAutosExtra + cantidadAgregadaDeAutos
+		}
+	
+	method cuantoSale() = precioBase + (cantidadDeAutosExtra * 5250)
+	method esValioso() = self.cuantoSale() > 27500
+	 
+}
+
+object yoyo {
+	var property color = "azul"
+	
+	method cuantoSale() = 5000 + self.costoExtra()
+	method costoExtra() = if (["rojo", "azul"].contains(color)) 1500 else 0
+	method esValioso() 	= (["azul", "amarillo"].contains(color))
+}
+
+
+object balero {
+	var tieneAdornoMetalico = false
+	
+	method cuantoSale() = 14100 + self.costoExtra()
+	method esValioso() = tieneAdornoMetalico
+	
+	method costoExtra() = if(tieneAdornoMetalico) 1900 else 0
+	
+	method agregarAdorno(){
+		if(!tieneAdornoMetalico){
+			tieneAdornoMetalico = true
+		}
+	}
+	method quitarAdorno(){
+		if (tieneAdornoMetalico){
+			tieneAdornoMetalico = false	
+		}		
+	}
+
+}
+
+class Ropa {
+	var property marca
+	var property fechaConfeccion
+	var property valorBase
+	const marcasSeleccionadas = #{"Jordachy", "Feraldy", "Charro"}
+	const fechaDeHoy = new Date()
+	
+	method cuantoSale() = valorBase + self.valorAgregadoDeMarca() - self.liquidacion() 
+	
+	method valorAgregadoDeMarca() = if(marcasSeleccionadas.contains(marca)) 5000 else 0
+			
+	method liquidacion() = if (self.cumpleFecha()) (self.descuentoLiquidacion()) else 0
+	
+	method cumpleFecha() = (fechaConfeccion - fechaDeHoy).abs() > 90
+	
+	method descuentoLiquidacion() = (valorBase + self.valorAgregadoDeMarca())* 0.20
+	
+	method esValioso()=false
+	
+}
+
+object voucher {
+	const fechaDeEmision  = new Date () 
+	method fechaDeVencimiento() = fechaDeEmision.plusMonths(3)	
+	method cuantoSale() = 5000
+	method esValioso() = true 	
